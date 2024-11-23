@@ -1,0 +1,35 @@
+version: '3.3'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+    restart: unless-stopped
+
+  external-api:
+    image: tupfrcutn/elecciones-2023:2.0.0
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+      - "3306:3306"
+    # volumes:
+    #   - mysql-data:/var/lib/mysql
+
+
+# volumes:
+#   mysql-data:
